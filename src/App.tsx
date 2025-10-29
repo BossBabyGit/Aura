@@ -106,7 +106,7 @@ function NavBar() {
           </a>
           <a
             className="rounded-full border border-white/10 bg-white/[.03] px-4 py-1.5 text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06]"
-            href="https://rainbet.com/"
+            href="https://rainbet.com/?r=clip"
             target="_blank"
             rel="noreferrer"
           >
@@ -244,7 +244,7 @@ export default function AuraRewards() {
             </h1>
             <p className="mt-4 text-neutral-300">
               Every <span className="font-semibold text-rose-300">$</span> wagered using code{" "}
-              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">aurafarmer</span> counts toward your total.
+              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">clip</span> counts toward your total.
             </p>
           </div>
 
@@ -279,12 +279,12 @@ export default function AuraRewards() {
                 <div>
                   <h3 className="text-xl font-semibold text-rose-300">Start playing on rainbet.com</h3>
                   <p className="mt-1 max-w-xl text-sm text-neutral-300">
-                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-rose-300">aurafarmer</span> on deposit to
+                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-rose-300">clip</span> on deposit to
                     auto-track your wagering for this leaderboard.
                   </p>
                 </div>
                 <a
-                  href="https://rainbet.com/"
+                  href="https://rainbet.com/?r=clip"
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-xl border border-rose-400/40 bg-rose-500/10 px-5 py-2.5 font-semibold text-rose-300 transition hover:border-rose-400/60 hover:bg-rose-500/20"
