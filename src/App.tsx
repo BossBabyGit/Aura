@@ -1,5 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+
+type Place = 1 | 2 | 3;
+
+interface Entry {
+  rank: number;
+  user: string;
+  avatar: string;
+  wagered: number;
+  prize: number;
+}
+
 
 /* ---------- Utility ---------- */
 const fmt = new Intl.NumberFormat("en-US", {
@@ -107,15 +118,15 @@ function NavBar() {
   );
 }
 
-function Podium({ place, entry }: any) {
-  const colors = {
+function Podium({ place, entry }: { place: Place; entry: Entry }) {
+  const colors: Record<Place, string> = {
     1: "from-yellow-400 via-amber-300 to-yellow-500",
     2: "from-zinc-400 via-neutral-300 to-zinc-500",
     3: "from-orange-400 via-amber-300 to-orange-500",
   };
-  const heights = { 1: "h-72", 2: "h-56", 3: "h-48" };
-  const tilt = { 1: "", 2: "-rotate-2", 3: "rotate-2" };
-  const glow = {
+  const heights: Record<Place, string> = { 1: "h-72", 2: "h-56", 3: "h-48" };
+  const tilt: Record<Place, string> = { 1: "", 2: "-rotate-2", 3: "rotate-2" };
+  const glow: Record<Place, string> = {
     1: "shadow-[0_0_80px_-20px_rgba(250,204,21,.5)]",
     2: "shadow-[0_0_60px_-16px_rgba(244,244,245,.3)]",
     3: "shadow-[0_0_60px_-16px_rgba(251,146,60,.4)]",
@@ -154,7 +165,7 @@ function Podium({ place, entry }: any) {
   );
 }
 
-function RankRow({ entry }: any) {
+function RankRow({ entry }: { entry: Entry }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
