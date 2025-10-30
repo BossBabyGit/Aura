@@ -86,7 +86,7 @@ function useLeaderboard() {
           return {
             rank,
             user,
-            avatar: `https://api.dicebear.com/8.x/bottts/svg?seed=${encodeURIComponent(user)}`,
+            avatar: "/avatar.png",
             wagered: r.wagered ?? 0,
             prize: PRIZES[rank] ?? 0,
           };
