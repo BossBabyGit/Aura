@@ -151,26 +151,26 @@ function FloatingGlow() {
 function NavBar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-rose-400/20 bg-[rgba(10,10,10,.7)] backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-rose-400/40 via-red-400/40 to-amber-400/40 ring-1 ring-white/10">
-            <svg viewBox="0 0 24 24" className="h-5 w-5 text-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-xl bg-gradient-to-br from-rose-400/40 via-red-400/40 to-amber-400/40 ring-1 ring-white/10 shrink-0">
+            <svg viewBox="0 0 24 24" className="h-4 w-4 sm:h-5 sm:w-5 text-white">
               <path fill="currentColor" d="M7 10l5-8l5 8l-5 3zM4 13l8 5l8-5l-8 9z" />
             </svg>
           </div>
-          <span className="text-lg font-bold tracking-tight text-white">
+          <span className="truncate whitespace-nowrap text-base sm:text-lg font-bold tracking-tight text-white">
             aura<strong className="text-rose-400">rewards</strong>.com
           </span>
         </div>
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <a
-            className="rounded-full border border-rose-400/20 bg-rose-400/10 px-4 py-1.5 text-sm text-white transition hover:border-rose-400/40 hover:bg-rose-400/20"
+            className="rounded-full border border-rose-400/20 bg-rose-400/10 px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-white transition hover:border-rose-400/40 hover:bg-rose-400/20 whitespace-nowrap"
             href="#leaderboard"
           >
             Leaderboard
           </a>
           <a
-            className="rounded-full border border-white/10 bg-white/[.03] px-4 py-1.5 text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06]"
+            className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06] whitespace-nowrap shrink-0"
             href="https://rainbet.com/?r=clip"
             target="_blank"
             rel="noreferrer"
@@ -182,6 +182,7 @@ function NavBar() {
     </header>
   );
 }
+
 
 function Podium({ place, entry }: { place: Place; entry: Entry }) {
   const colors: Record<Place, string> = {
