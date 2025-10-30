@@ -1,7 +1,20 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 type Place = 1 | 2 | 3;
+
+interface ApiRow {
+  username: string;
+  wagered: number;
+}
+interface ApiPayload {
+  updated_at_utc: string;
+  range: { start_at: string; end_at: string };
+  count: number;
+  rows: ApiRow[];
+}
 
 interface Entry {
   rank: number;
@@ -11,7 +24,6 @@ interface Entry {
   prize: number;
 }
 
-
 /* ---------- Utility ---------- */
 const fmt = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -19,18 +31,19 @@ const fmt = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-const MOCK = [
-  { rank: 1, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 152340, prize: 2500 },
-  { rank: 2, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 126880, prize: 1500 },
-  { rank: 3, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 103590, prize: 1000 },
-  { rank: 4, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 84670, prize: 500 },
-  { rank: 5, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 79210, prize: 350 },
-  { rank: 6, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 70220, prize: 250 },
-  { rank: 7, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 65500, prize: 150 },
-  { rank: 8, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 61220, prize: 100 },
-  { rank: 9, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 58010, prize: 75 },
-  { rank: 10, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 55230, prize: 50 },
-];
+// Prize table (edit as you like)
+const PRIZES: Record<number, number> = {
+  1: 2500,
+  2: 1500,
+  3: 1000,
+  4: 500,
+  5: 350,
+  6: 250,
+  7: 150,
+  8: 100,
+  9: 75,
+  10: 50,
+};
 
 const SEASON_END = new Date("2025-10-31T23:59:59Z");
 
@@ -46,6 +59,58 @@ function useCountdown(targetDate: Date) {
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
   return { days, hours, minutes, seconds };
+}
+
+/* ---------- Data fetch ---------- */
+function useLeaderboard() {
+  const [entries, setEntries] = useState<Entry[] | null>(null);
+  const [meta, setMeta] = useState<{ updated?: string; range?: { start_at: string; end_at: string } }>({});
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        setError(null);
+        const res = await fetch("/leaderboard.json", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = (await res.json()) as ApiPayload;
+
+        // take top 10 (sorted in the script already)
+        const rows = (data.rows || []).slice(0, 10);
+
+        const mapped: Entry[] = rows.map((r, i) => {
+          const rank = i + 1;
+          const user = r.username ?? "unknown";
+          return {
+            rank,
+            user,
+            avatar: `https://api.dicebear.com/8.x/bottts/svg?seed=${encodeURIComponent(user)}`,
+            wagered: r.wagered ?? 0,
+            prize: PRIZES[rank] ?? 0,
+          };
+        });
+
+        if (!cancelled) {
+          setEntries(mapped);
+          setMeta({ updated: data.updated_at_utc, range: data.range });
+        }
+      } catch (e: any) {
+        if (!cancelled) setError(e?.message || "Failed to load leaderboard");
+      }
+    }
+
+    load();
+    // If you want auto-refresh in browser, uncomment:
+    // const t = setInterval(load, 60_000);
+    // return () => { cancelled = true; clearInterval(t); };
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return { entries, meta, error };
 }
 
 /* ---------- Components ---------- */
@@ -220,8 +285,10 @@ function Countdown({ end }: any) {
 
 /* ---------- Page ---------- */
 export default function AuraRewards() {
-  const top3 = MOCK.slice(0, 3);
-  const rest = MOCK.slice(3, 10);
+  const { entries, meta, error } = useLeaderboard();
+
+  const top3 = entries?.slice(0, 3) ?? [];
+  const rest = entries?.slice(3, 10) ?? [];
 
   return (
     <>
@@ -246,6 +313,11 @@ export default function AuraRewards() {
               Every <span className="font-semibold text-rose-300">$</span> wagered using code{" "}
               <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">clip</span> counts toward your total.
             </p>
+            {meta.updated && (
+              <p className="mt-2 text-xs text-neutral-400">
+                Range: {meta.range?.start_at} → {meta.range?.end_at} • Updated: {meta.updated}
+              </p>
+            )}
           </div>
 
           <section className="mt-10 flex flex-col items-center gap-4">
@@ -253,25 +325,37 @@ export default function AuraRewards() {
             <Countdown end={SEASON_END} />
           </section>
 
-          <section className="mt-14">
-            <div className="grid grid-cols-1 items-end justify-items-center gap-6 sm:grid-cols-3">
-              <Podium place={2} entry={top3[1]} />
-              <Podium place={1} entry={top3[0]} />
-              <Podium place={3} entry={top3[2]} />
-            </div>
-          </section>
+          {/* Loading / Error states */}
+          {!entries && !error && (
+            <div className="mt-14 text-center text-neutral-400">Loading leaderboard…</div>
+          )}
+          {error && (
+            <div className="mt-14 text-center text-red-400">Failed to load leaderboard: {error}</div>
+          )}
 
-          <section className="mt-14">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold tracking-tight text-white/90">Ranks 4 – 10</h2>
-              <div className="text-xs text-neutral-400">Live updates every 60s (demo)</div>
-            </div>
-            <div className="grid gap-3">
-              {rest.map((e) => (
-                <RankRow key={e.rank} entry={e} />
-              ))}
-            </div>
-          </section>
+          {entries && entries.length > 0 && (
+            <>
+              <section className="mt-14">
+                <div className="grid grid-cols-1 items-end justify-items-center gap-6 sm:grid-cols-3">
+                  {top3[1] && <Podium place={2} entry={top3[1]} />}
+                  {top3[0] && <Podium place={1} entry={top3[0]} />}
+                  {top3[2] && <Podium place={3} entry={top3[2]} />}
+                </div>
+              </section>
+
+              <section className="mt-14">
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="text-lg font-semibold tracking-tight text-white/90">Ranks 4 – 10</h2>
+                  <div className="text-xs text-neutral-400">Updated every 5 minutes</div>
+                </div>
+                <div className="grid gap-3">
+                  {rest.map((e) => (
+                    <RankRow key={e.rank} entry={e} />
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
 
           <section className="mt-16">
             <div className="relative overflow-hidden rounded-2xl border border-rose-400/20 bg-gradient-to-br from-rose-500/10 via-amber-500/10 to-red-700/10 p-6">
