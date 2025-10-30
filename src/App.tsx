@@ -19,18 +19,105 @@ const fmt = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-const MOCK = [
-  { rank: 1, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 152340, prize: 2500 },
-  { rank: 2, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 126880, prize: 1500 },
-  { rank: 3, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 103590, prize: 1000 },
-  { rank: 4, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 84670, prize: 500 },
-  { rank: 5, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 79210, prize: 350 },
-  { rank: 6, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 70220, prize: 250 },
-  { rank: 7, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 65500, prize: 150 },
-  { rank: 8, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 61220, prize: 100 },
-  { rank: 9, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 58010, prize: 75 },
-  { rank: 10, user: "bossbaby", avatar: "https://api.dicebear.com/8.x/bottts/svg?seed=bossbaby", wagered: 55230, prize: 50 },
+const PRIZE_BY_RANK: Record<number, number> = {
+  1: 2500,
+  2: 1500,
+  3: 1000,
+  4: 500,
+  5: 350,
+  6: 250,
+  7: 150,
+  8: 100,
+  9: 75,
+  10: 50,
+};
+
+const makeAvatar = (username: string) =>
+  `https://api.dicebear.com/8.x/bottts/svg?seed=${encodeURIComponent(username.toLowerCase())}`;
+
+const FALLBACK_ENTRIES: Entry[] = [
+  { rank: 1, user: "bossbaby", avatar: makeAvatar("bossbaby"), wagered: 152340, prize: PRIZE_BY_RANK[1]! },
+  { rank: 2, user: "bosslady", avatar: makeAvatar("bosslady"), wagered: 126880, prize: PRIZE_BY_RANK[2]! },
+  { rank: 3, user: "clipfan", avatar: makeAvatar("clipfan"), wagered: 103590, prize: PRIZE_BY_RANK[3]! },
+  { rank: 4, user: "rainmaker", avatar: makeAvatar("rainmaker"), wagered: 84670, prize: PRIZE_BY_RANK[4]! },
+  { rank: 5, user: "whirlwind", avatar: makeAvatar("whirlwind"), wagered: 79210, prize: PRIZE_BY_RANK[5]! },
+  { rank: 6, user: "streak", avatar: makeAvatar("streak"), wagered: 70220, prize: PRIZE_BY_RANK[6]! },
+  { rank: 7, user: "jackpotjay", avatar: makeAvatar("jackpotjay"), wagered: 65500, prize: PRIZE_BY_RANK[7]! },
+  { rank: 8, user: "velvet", avatar: makeAvatar("velvet"), wagered: 61220, prize: PRIZE_BY_RANK[8]! },
+  { rank: 9, user: "acehigh", avatar: makeAvatar("acehigh"), wagered: 58010, prize: PRIZE_BY_RANK[9]! },
+  { rank: 10, user: "ember", avatar: makeAvatar("ember"), wagered: 55230, prize: PRIZE_BY_RANK[10]! },
 ];
+
+type LeaderboardStatus = "loading" | "live" | "fallback";
+
+function formatUpdatedAt(value: string) {
+  const candidates = [value];
+  if (value.includes(" ")) {
+    const withT = value.replace(" ", "T");
+    candidates.push(withT, `${withT}Z`);
+  }
+  for (const candidate of candidates) {
+    const date = new Date(candidate);
+    if (!Number.isNaN(date.getTime())) {
+      return date.toLocaleString();
+    }
+  }
+  return value;
+}
+
+function parseLeaderboardPayload(payload: unknown) {
+  const source =
+    Array.isArray((payload as any)?.entries)
+      ? (payload as any).entries
+      : Array.isArray((payload as any)?.affiliates)
+      ? (payload as any).affiliates
+      : [];
+
+  const normalized = (source as any[])
+    .map((item) => {
+      const username =
+        typeof item?.username === "string"
+          ? item.username
+          : typeof item?.user === "string"
+          ? item.user
+          : null;
+      const wagerRaw = item?.wagered ?? item?.wagered_amount ?? item?.wageredAmount;
+      const wagered =
+        typeof wagerRaw === "string"
+          ? Number.parseFloat(wagerRaw)
+          : typeof wagerRaw === "number"
+          ? wagerRaw
+          : Number.NaN;
+      if (!username || !Number.isFinite(wagered)) {
+        return null;
+      }
+      return { username, wagered };
+    })
+    .filter(Boolean) as { username: string; wagered: number }[];
+
+  normalized.sort((a, b) => b.wagered - a.wagered);
+  const top = normalized.slice(0, 10);
+
+  const entries: Entry[] = top.map((item, index) => ({
+    rank: index + 1,
+    user: item.username,
+    avatar: makeAvatar(item.username),
+    wagered: item.wagered,
+    prize: PRIZE_BY_RANK[index + 1] ?? 0,
+  }));
+
+  const rawUpdatedAt =
+    typeof (payload as any)?.updatedAt === "string"
+      ? (payload as any).updatedAt
+      : typeof (payload as any)?.cache_updated_at === "string"
+      ? (payload as any).cache_updated_at
+      : null;
+
+  return {
+    entries,
+    updatedAt: rawUpdatedAt ? formatUpdatedAt(rawUpdatedAt) : null,
+  };
+}
 
 const SEASON_END = new Date("2025-10-31T23:59:59Z");
 
@@ -118,7 +205,7 @@ function NavBar() {
   );
 }
 
-function Podium({ place, entry }: { place: Place; entry: Entry }) {
+function Podium({ place, entry }: { place: Place; entry?: Entry }) {
   const colors: Record<Place, string> = {
     1: "from-yellow-400 via-amber-300 to-yellow-500",
     2: "from-zinc-400 via-neutral-300 to-zinc-500",
@@ -145,17 +232,23 @@ function Podium({ place, entry }: { place: Place; entry: Entry }) {
         <div className="relative flex h-full w-full flex-col items-center justify-end rounded-[1rem] bg-neutral-900/95 p-4">
           <div className="absolute -top-10">
             <div className="relative">
-              <img src={entry.avatar} alt={entry.user} className="h-16 w-16 rounded-full border border-white/10 shadow-lg" />
+              <img
+                src={entry?.avatar ?? makeAvatar(`pending-${place}`)}
+                alt={entry?.user ?? "Pending player"}
+                className="h-16 w-16 rounded-full border border-white/10 shadow-lg"
+              />
               <div className="absolute -right-2 -bottom-2 grid h-7 w-7 place-items-center rounded-full bg-neutral-900 text-sm font-black text-white ring-2 ring-white/10">
                 {place}
               </div>
             </div>
           </div>
           <div className="mt-8 text-center">
-            <h3 className="text-xl font-semibold tracking-tight text-rose-200">{entry.user}</h3>
-            <p className="mt-1 text-sm text-neutral-400">Wagered {fmt.format(entry.wagered)}</p>
+            <h3 className="text-xl font-semibold tracking-tight text-rose-200">{entry?.user ?? "TBD"}</h3>
+            <p className="mt-1 text-sm text-neutral-400">
+              {entry ? `Wagered ${fmt.format(entry.wagered)}` : "Awaiting data"}
+            </p>
             <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1 text-amber-300">
-              🏆 Prize {fmt.format(entry.prize)}
+              🏆 Prize {fmt.format(entry?.prize ?? PRIZE_BY_RANK[place])}
             </p>
           </div>
           <Shine />
@@ -220,8 +313,54 @@ function Countdown({ end }: any) {
 
 /* ---------- Page ---------- */
 export default function AuraRewards() {
-  const top3 = MOCK.slice(0, 3);
-  const rest = MOCK.slice(3, 10);
+  const [entries, setEntries] = useState<Entry[]>(FALLBACK_ENTRIES);
+  const [status, setStatus] = useState<LeaderboardStatus>("loading");
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const load = async () => {
+      try {
+        const response = await fetch("/data/leaderboard.json", {
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to load leaderboard (${response.status})`);
+        }
+        const payload = await response.json();
+        if (!active) return;
+        const parsed = parseLeaderboardPayload(payload);
+        if (parsed.entries.length > 0) {
+          setEntries(parsed.entries);
+          setStatus("live");
+          setLastUpdated(parsed.updatedAt ?? new Date().toLocaleString());
+        } else {
+          setStatus((prev) => (prev === "loading" ? "fallback" : prev));
+        }
+      } catch (error) {
+        console.error("Unable to fetch leaderboard data", error);
+        if (!active) return;
+        setStatus((prev) => (prev === "loading" ? "fallback" : prev));
+      }
+    };
+
+    load();
+    const interval = window.setInterval(load, 60_000);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  const top3 = entries.slice(0, 3);
+  const rest = entries.slice(3, 10);
+
+  const statusMessage = status === "loading"
+    ? "Loading latest results…"
+    : status === "live"
+    ? `Last updated ${lastUpdated ?? "just now"}`
+    : "Showing cached demo results.";
 
   return (
     <>
@@ -264,12 +403,16 @@ export default function AuraRewards() {
           <section className="mt-14">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold tracking-tight text-white/90">Ranks 4 – 10</h2>
-              <div className="text-xs text-neutral-400">Live updates every 60s (demo)</div>
+              <div className="text-xs text-neutral-400">{statusMessage}</div>
             </div>
             <div className="grid gap-3">
-              {rest.map((e) => (
-                <RankRow key={e.rank} entry={e} />
-              ))}
+              {rest.length > 0 ? (
+                rest.map((e) => <RankRow key={e.rank} entry={e} />)
+              ) : (
+                <div className="rounded-xl border border-white/5 bg-white/[.02] px-4 py-6 text-center text-sm text-neutral-400">
+                  Leaderboard data is still coming in. Check back soon!
+                </div>
+              )}
             </div>
           </section>
 
