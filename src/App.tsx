@@ -31,19 +31,19 @@ const fmt = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-// Prize table (edit as you like)
 const PRIZES: Record<number, number> = {
-  1: 2500,
-  2: 1500,
-  3: 1000,
-  4: 500,
-  5: 350,
-  6: 250,
-  7: 150,
-  8: 100,
-  9: 75,
-  10: 50,
+  1: 4000,
+  2: 2500,
+  3: 1500,
+  4: 600,
+  5: 400,
+  6: 300,
+  7: 250,
+  8: 200,
+  9: 150,
+  10: 100,
 };
+
 
 const SEASON_END = new Date("2025-10-31T23:59:59Z");
 
