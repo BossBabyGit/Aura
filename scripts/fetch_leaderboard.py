@@ -43,11 +43,21 @@ def main():
         except Exception:
             wagered = Decimal(0)
         rows.append({
-            "username": a.get("username"),
+            "username": a.get("username") or "No User",
             "wagered": float(wagered),
         })
 
     rows.sort(key=lambda r: r["wagered"], reverse=True)
+
+    # 🔧 Ensure at least 10 rows (fill missing ranks with placeholders)
+    while len(rows) < 10:
+        rows.append({
+            "username": "No User",
+            "wagered": 0.0,
+        })
+
+    # Trim to top 10 (just in case API returns more)
+    rows = rows[:10]
 
     out = {
         "updated_at_utc": datetime.utcnow().isoformat(timespec="seconds") + "Z",
