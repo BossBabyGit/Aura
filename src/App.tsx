@@ -45,7 +45,7 @@ const PRIZES: Record<number, number> = {
 };
 
 
-const SEASON_END = new Date("2025-10-31T23:59:59Z");
+const SEASON_END = new Date("2025-11-30T23:59:59Z");
 
 /* ---------- Hooks ---------- */
 function useCountdown(targetDate: Date) {
