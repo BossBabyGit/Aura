@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-11-25T15:01:27Z",
+  "updated_at_utc": "2025-11-25T15:30:18Z",
   "range": {
     "start_at": "2025-11-01",
     "end_at": "2025-11-30"
@@ -7,45 +7,45 @@
   "count": 10,
   "rows": [
     {
-      "username": "sleeplesstheone",
-      "wagered": 13117.41
+      "username": "Eatthizz2",
+      "wagered": 48423.0552
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "lordstinky",
+      "wagered": 32217.85
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "scuffronwaki",
+      "wagered": 25276.03
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "tjcfosho",
+      "wagered": 8463.1
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "0wetrust",
+      "wagered": 5266.789
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "EwaldxleeLive",
+      "wagered": 4122.56
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "DiegoK",
+      "wagered": 2799.0
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "MirkoBomba",
+      "wagered": 2463.8146
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "izumaki18",
+      "wagered": 2098.92
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "virtualwaki",
+      "wagered": 1275.86
     }
   ],
-  "source_cache_updated_at": "2025-11-25 14:52:39"
+  "source_cache_updated_at": "2025-11-25 15:30:18"
 }
