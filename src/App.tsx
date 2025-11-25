@@ -82,7 +82,8 @@ function useLeaderboard() {
 
         const mapped: Entry[] = rows.map((r, i) => {
           const rank = i + 1;
-          const user = r.username ?? "unknown";
+          const username = r.username ?? "unknown";
+          const user = username.length >= 2 ? username.slice(0, 2) + "**" : username;
           return {
             rank,
             user,
@@ -159,7 +160,7 @@ function NavBar() {
             </svg>
           </div>
           <span className="truncate whitespace-nowrap text-base sm:text-lg font-bold tracking-tight text-white">
-            aura<strong className="text-rose-400">rewards</strong>.com
+            waki<strong className="text-rose-400">rewards</strong>.com
           </span>
         </div>
         <nav className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -171,7 +172,7 @@ function NavBar() {
           </a>
           <a
             className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06] whitespace-nowrap shrink-0"
-            href="https://rainbet.com/?r=clip"
+            href="https://rainbet.com/?r=WakI"
             target="_blank"
             rel="noreferrer"
           >
@@ -312,7 +313,7 @@ export default function AuraRewards() {
             </h1>
             <p className="mt-4 text-neutral-300">
               Every <span className="font-semibold text-rose-300">$</span> wagered using code{" "}
-              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">clip</span> counts toward your total.
+              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">WakI</span> counts toward your total.
             </p>
             {meta.updated && (
               <p className="mt-2 text-xs text-neutral-400">
@@ -364,12 +365,12 @@ export default function AuraRewards() {
                 <div>
                   <h3 className="text-xl font-semibold text-rose-300">Start playing on rainbet.com</h3>
                   <p className="mt-1 max-w-xl text-sm text-neutral-300">
-                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-rose-300">clip</span> on deposit to
+                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-rose-300">WakI</span> on deposit to
                     auto-track your wagering for this leaderboard.
                   </p>
                 </div>
                 <a
-                  href="https://rainbet.com/?r=clip"
+                  href="https://rainbet.com/?r=WakI"
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-xl border border-rose-400/40 bg-rose-500/10 px-5 py-2.5 font-semibold text-rose-300 transition hover:border-rose-400/60 hover:bg-rose-500/20"
@@ -383,7 +384,7 @@ export default function AuraRewards() {
         </main>
 
         <footer className="border-t border-white/5 bg-neutral-950/60 py-8 text-center text-sm text-neutral-500">
-          © {new Date().getFullYear()} aura<strong className="text-rose-300">rewards</strong>.com • Offical Leaderboard Page
+          © {new Date().getFullYear()} waki<strong className="text-rose-300">rewards</strong>.com • Offical Leaderboard Page
         </footer>
       </div>
     </>
