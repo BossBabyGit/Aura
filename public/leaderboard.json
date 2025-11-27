@@ -1,51 +1,51 @@
 {
-  "updated_at_utc": "2025-11-27T08:17:39Z",
+  "updated_at_utc": "2025-11-27T08:43:43Z",
   "range": {
-    "start_at": "2025-11-27",
-    "end_at": "2025-12-27"
+    "start_at": "2025-11-24",
+    "end_at": "2025-12-24"
   },
   "count": 10,
   "rows": [
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "tjcfosho",
+      "wagered": 14832.0
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Eatthizz2",
+      "wagered": 3694.8199
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "0wetrust",
+      "wagered": 832.64
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "lordstinky",
+      "wagered": 493.61
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Wekbetss",
+      "wagered": 6.84
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "MirkoBomba",
+      "wagered": 1.36
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Cuv0",
+      "wagered": 0.888
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Fuwr",
+      "wagered": 0.68
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Nooobi",
+      "wagered": 0.2997
     },
     {
       "username": "No User",
       "wagered": 0.0
     }
   ],
-  "source_cache_updated_at": "2025-11-27 08:17:39"
+  "source_cache_updated_at": "2025-11-27 08:43:43"
 }
