@@ -15,8 +15,8 @@ API_KEY = os.getenv("RAINBET_API_KEY")
 BASE_URL = "https://services.rainbet.com/v1/external/affiliates"
 
 # 🔒 Fixed date range — adjust as needed
-START_AT = "2025-11-27"
-END_AT = "2025-12-27"
+START_AT = "2025-11-24"
+END_AT = "2025-12-24"
 
 # ---------------------------------------------------------------------------
 
