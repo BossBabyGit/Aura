@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-11-28T04:54:36Z",
+  "updated_at_utc": "2025-11-28T05:13:57Z",
   "range": {
     "start_at": "2025-11-24",
     "end_at": "2025-12-24"
@@ -23,6 +23,10 @@
       "wagered": 493.61
     },
     {
+      "username": "astonmartin1911",
+      "wagered": 273.9
+    },
+    {
       "username": "Grandmaster790",
       "wagered": 13.86
     },
@@ -39,13 +43,9 @@
       "wagered": 0.888
     },
     {
-      "username": "astonmartin1911",
-      "wagered": 0.71
-    },
-    {
       "username": "Fuwr",
       "wagered": 0.68
     }
   ],
-  "source_cache_updated_at": "2025-11-28 04:45:08"
+  "source_cache_updated_at": "2025-11-28 05:13:57"
 }
