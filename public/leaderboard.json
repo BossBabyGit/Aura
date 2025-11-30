@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-11-30T17:49:09Z",
+  "updated_at_utc": "2025-11-30T17:57:00Z",
   "range": {
     "start_at": "2025-11-24",
     "end_at": "2025-12-24"
@@ -27,16 +27,16 @@
       "wagered": 321.29
     },
     {
+      "username": "Astarrgay",
+      "wagered": 59.2336
+    },
+    {
       "username": "sigmaplayzz",
       "wagered": 19.87
     },
     {
       "username": "Grandmaster790",
       "wagered": 13.86
-    },
-    {
-      "username": "Astarrgay",
-      "wagered": 12.9336
     },
     {
       "username": "Wekbetss",
@@ -47,5 +47,5 @@
       "wagered": 2.58
     }
   ],
-  "source_cache_updated_at": "2025-11-30 17:40:53"
+  "source_cache_updated_at": "2025-11-30 17:57:00"
 }
