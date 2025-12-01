@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-01T14:56:18Z",
+  "updated_at_utc": "2025-12-01T15:18:38Z",
   "range": {
     "start_at": "2025-11-24",
     "end_at": "2025-12-24"
@@ -20,7 +20,7 @@
     },
     {
       "username": "Astarrgay",
-      "wagered": 646.2275
+      "wagered": 668.2175
     },
     {
       "username": "lordstinky",
@@ -47,5 +47,5 @@
       "wagered": 2.58
     }
   ],
-  "source_cache_updated_at": "2025-12-01 14:56:18"
+  "source_cache_updated_at": "2025-12-01 15:18:38"
 }
