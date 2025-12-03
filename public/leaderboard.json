@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-03T05:58:28Z",
+  "updated_at_utc": "2025-12-03T06:35:31Z",
   "range": {
     "start_at": "2025-11-24",
     "end_at": "2025-12-24"
@@ -7,12 +7,12 @@
   "count": 10,
   "rows": [
     {
-      "username": "Eatthizz2",
-      "wagered": 19909.447
+      "username": "tjcfosho",
+      "wagered": 20066.5951
     },
     {
-      "username": "tjcfosho",
-      "wagered": 19695.5451
+      "username": "Eatthizz2",
+      "wagered": 19909.447
     },
     {
       "username": "Astarrgay",
@@ -47,5 +47,5 @@
       "wagered": 2.79
     }
   ],
-  "source_cache_updated_at": "2025-12-03 05:58:28"
+  "source_cache_updated_at": "2025-12-03 06:35:31"
 }
