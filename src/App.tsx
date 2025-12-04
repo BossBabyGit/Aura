@@ -172,7 +172,7 @@ function NavBar() {
           </a>
           <a
             className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06] whitespace-nowrap shrink-0"
-            href="https://rainbet.com/?r=WakI"
+            href="https://menace.com/?r=waki"
             target="_blank"
             rel="noreferrer"
           >
@@ -370,7 +370,7 @@ export default function AuraRewards() {
                   </p>
                 </div>
                 <a
-                  href="https://rainbet.com/?r=WakI"
+                  href="https://menace.com/?r=waki"
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-xl border border-rose-400/40 bg-rose-500/10 px-5 py-2.5 font-semibold text-rose-300 transition hover:border-rose-400/60 hover:bg-rose-500/20"
