@@ -32,20 +32,20 @@ const fmt = new Intl.NumberFormat("en-US", {
 });
 
 const PRIZES: Record<number, number> = {
-  1: 300,
-  2: 100,
-  3: 75,
-  4: 25,
-  5: 0,
-  6: 0,
-  7: 0,
+  1: 350,
+  2: 200,
+  3: 100,
+  4: 50,
+  5: 25,
+  6: 20,
+  7: 10,
   8: 0,
   9: 0,
   10: 0,
 };
 
 
-const SEASON_END = new Date("2025-12-24T23:59:59Z");
+const SEASON_END = new Date("2026-01-04T23:59:59Z");
 
 /* ---------- Hooks ---------- */
 function useCountdown(targetDate: Date) {
