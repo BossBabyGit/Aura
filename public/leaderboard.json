@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-04T23:52:02Z",
+  "updated_at_utc": "2025-12-05T00:00:09Z",
   "range": {
     "start_at": "2025-11-24",
     "end_at": "2025-12-24"
@@ -47,5 +47,5 @@
       "wagered": 3.78
     }
   ],
-  "source_cache_updated_at": "2025-12-04 23:44:00"
+  "source_cache_updated_at": "2025-12-05 00:00:09"
 }
