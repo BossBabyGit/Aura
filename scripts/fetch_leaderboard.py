@@ -133,9 +133,11 @@ def main():
         try:
             username = extract_username(entry)
             amount = extract_amount(entry)
+            # ----- ADJUSTMENT: divide by 100 to get correct wagered amount -----
+            adjusted_amount = (amount / Decimal(100)) if isinstance(amount, Decimal) else Decimal(0)
             rows.append({
                 "username": username or "No User",
-                "wagered": float(amount),  # keep compatibility with original format
+                "wagered": float(adjusted_amount),  # keep compatibility with original format
             })
         except Exception:
             # be robust: skip problematic entry but continue
@@ -153,9 +155,11 @@ def main():
                         fallback_player = data_node[k]
                         break
             if fallback_player:
+                fp_amount = extract_amount(fallback_player)
+                adjusted_fp_amount = (fp_amount / Decimal(100)) if isinstance(fp_amount, Decimal) else Decimal(0)
                 rows.append({
                     "username": extract_username(fallback_player),
-                    "wagered": float(extract_amount(fallback_player)),
+                    "wagered": float(adjusted_fp_amount),
                 })
         except Exception:
             pass
