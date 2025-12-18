@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-18T11:44:48Z",
+  "updated_at_utc": "2025-12-18T11:52:51Z",
   "range": {
     "start_at": "2025-12-05T09:00:00.000Z",
     "end_at": "2026-01-04T23:59:59.000Z"
@@ -31,12 +31,12 @@
       "wagered": 293.84
     },
     {
-      "username": "Uknown artist",
-      "wagered": 14.55
+      "username": "virtualwaki",
+      "wagered": 26.1
     },
     {
-      "username": "virtualwaki",
-      "wagered": 12.3
+      "username": "Uknown artist",
+      "wagered": 14.55
     },
     {
       "username": "No User",
