@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-25T06:57:28Z",
+  "updated_at_utc": "2025-12-25T07:21:52Z",
   "range": {
     "start_at": "2025-12-05T09:00:00.000Z",
     "end_at": "2026-01-04T23:59:59.000Z"
@@ -39,12 +39,12 @@
       "wagered": 49.24
     },
     {
-      "username": "Uknown artist",
-      "wagered": 14.55
+      "username": "igrapeastarr",
+      "wagered": 16.3
     },
     {
-      "username": "No User",
-      "wagered": 0.0
+      "username": "Uknown artist",
+      "wagered": 14.55
     }
   ],
   "source_cache_updated_at": null
