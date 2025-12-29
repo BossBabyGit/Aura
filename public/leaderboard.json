@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2025-12-29T03:58:33Z",
+  "updated_at_utc": "2025-12-29T04:51:48Z",
   "range": {
     "start_at": "2025-12-05T09:00:00.000Z",
     "end_at": "2026-01-04T23:59:59.000Z"
@@ -19,16 +19,16 @@
       "wagered": 20467.35
     },
     {
+      "username": "dmvdae",
+      "wagered": 4762.45
+    },
+    {
       "username": "EZBets",
       "wagered": 4598.6
     },
     {
       "username": "Habibi74",
       "wagered": 3839.6
-    },
-    {
-      "username": "dmvdae",
-      "wagered": 3610.45
     },
     {
       "username": "BankbrosMain",
