@@ -1,5 +1,5 @@
 {
-  "updated_at_utc": "2026-01-04T23:53:47Z",
+  "updated_at_utc": "2026-01-05T01:02:31Z",
   "range": {
     "start_at": "2025-12-05T09:00:00.000Z",
     "end_at": "2026-01-04T23:59:59.000Z"
@@ -7,44 +7,44 @@
   "count": 10,
   "rows": [
     {
-      "username": "newfoxban***",
-      "wagered": 156996.0
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "BankbrosFill",
-      "wagered": 34186.83
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "pingugambles",
-      "wagered": 20470.33
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "Coupie",
-      "wagered": 7323.6
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "dmvdae",
-      "wagered": 7160.56
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "EZBets",
-      "wagered": 5137.68
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "Habibi74",
-      "wagered": 3839.6
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "BankbrosMain",
-      "wagered": 866.89
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "virtualwaki",
-      "wagered": 49.24
+      "username": "No User",
+      "wagered": 0.0
     },
     {
-      "username": "Uknown artist",
-      "wagered": 26.33
+      "username": "No User",
+      "wagered": 0.0
     }
   ],
   "source_cache_updated_at": null
