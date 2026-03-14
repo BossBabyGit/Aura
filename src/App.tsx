@@ -175,11 +175,11 @@ function NavBar() {
           </a>
           <a
             className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-[#F7FAFC]/75 transition hover:border-white/20 hover:bg-white/[.05] whitespace-nowrap shrink-0"
-            href="https://menace.com/?r=xale"
+            href="https://stake.com/?r=xale"
             target="_blank"
             rel="noreferrer"
           >
-            menace.com
+            stake.com
           </a>
         </nav>
       </div>
@@ -379,7 +379,7 @@ export default function XaleRewards() {
               <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                 <div>
                   <h3 className="text-xl font-semibold text-[#F7FAFC]">
-                    Start playing on menace.com and get 10% lossback + 5-10% deposit bonus
+                    Start playing on stake.com and get 10% lossback + 5-10% deposit bonus
                   </h3>
                   <p className="mt-1 max-w-xl text-sm text-[#F7FAFC]/75">
                     Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[#F7FAFC]">XALE</span> on deposit to
@@ -388,12 +388,12 @@ export default function XaleRewards() {
                 </div>
 
                 <a
-                  href="https://menace.com/?r=xale"
+                  href="https://stake.com/?r=xale"
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-xl border border-[#F7FAFC]/15 bg-[#13232D]/60 px-5 py-2.5 font-semibold text-[#F7FAFC] transition hover:border-[#F7FAFC]/30 hover:bg-[#17242B]"
                 >
-                  Go to menace.com
+                  Go to stake.com
                 </a>
               </div>
 
