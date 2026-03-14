@@ -44,20 +44,24 @@ const PRIZES: Record<number, number> = {
   10: 0,
 };
 
-
 const SEASON_END = new Date("2026-01-04T23:59:59Z");
 
 /* ---------- Hooks ---------- */
 function useCountdown(targetDate: Date) {
   const [diff, setDiff] = useState(() => Math.max(0, targetDate.getTime() - Date.now()));
+
   useEffect(() => {
-    const t = setInterval(() => setDiff(Math.max(0, targetDate.getTime() - Date.now())), 1000);
+    const t = setInterval(() => {
+      setDiff(Math.max(0, targetDate.getTime() - Date.now()));
+    }, 1000);
     return () => clearInterval(t);
   }, [targetDate]);
+
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
+
   return { days, hours, minutes, seconds };
 }
 
@@ -77,13 +81,13 @@ function useLeaderboard() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as ApiPayload;
 
-        // take top 10 (sorted in the script already)
         const rows = (data.rows || []).slice(0, 10);
 
         const mapped: Entry[] = rows.map((r, i) => {
           const rank = i + 1;
           const username = r.username ?? "unknown";
           const user = username.length >= 2 ? username.slice(0, 2) + "**" : username;
+
           return {
             rank,
             user,
@@ -103,9 +107,7 @@ function useLeaderboard() {
     }
 
     load();
-    // If you want auto-refresh in browser, uncomment:
-    // const t = setInterval(load, 60_000);
-    // return () => { cancelled = true; clearInterval(t); };
+
     return () => {
       cancelled = true;
     };
@@ -118,7 +120,7 @@ function useLeaderboard() {
 
 const Shine = () => (
   <div className="pointer-events-none absolute inset-0 rounded-3xl [mask-image:radial-gradient(80%_80%_at_20%_0%,#000_0%,transparent_70%)]">
-    <div className="absolute -top-32 left-10 h-64 w-64 rotate-12 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-rose-400/40 via-red-400/30 to-amber-400/30" />
+    <div className="absolute -top-32 left-10 h-64 w-64 rotate-12 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-[#203743]/40 via-[#1A2E39]/30 to-[#17242B]/30" />
   </div>
 );
 
@@ -128,10 +130,10 @@ function GridBackground() {
       className="
         absolute inset-0
         [background-image:
-          repeating-linear-gradient(0deg,rgba(255,255,255,.05)_0_1px,transparent_1px_32px),
-          repeating-linear-gradient(90deg,rgba(255,255,255,.05)_0_1px,transparent_1px_32px),
-          repeating-linear-gradient(0deg,rgba(255,255,255,.1)_0_1px,transparent_1px_128px),
-          repeating-linear-gradient(90deg,rgba(255,255,255,.1)_0_1px,transparent_1px_128px)
+          repeating-linear-gradient(0deg,rgba(247,250,252,.04)_0_1px,transparent_1px_32px),
+          repeating-linear-gradient(90deg,rgba(247,250,252,.04)_0_1px,transparent_1px_32px),
+          repeating-linear-gradient(0deg,rgba(247,250,252,.07)_0_1px,transparent_1px_128px),
+          repeating-linear-gradient(90deg,rgba(247,250,252,.07)_0_1px,transparent_1px_128px)
         ]
       "
     />
@@ -142,7 +144,7 @@ function FloatingGlow() {
   return (
     <motion.div
       aria-hidden
-      className="absolute left-1/2 top-[-20%] h-[50rem] w-[50rem] -translate-x-1/2 rounded-full blur-3xl opacity-30 bg-gradient-radial from-rose-500/10 via-amber-500/10 to-transparent"
+      className="absolute left-1/2 top-[-20%] h-[50rem] w-[50rem] -translate-x-1/2 rounded-full blur-3xl opacity-30 bg-gradient-radial from-[#203743]/20 via-[#1A2E39]/15 to-transparent"
       animate={{ x: ["-8%", "8%", "-8%"], y: ["0%", "10%", "0%"], rotate: [0, 12, -6, 0] }}
       transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
     />
@@ -151,28 +153,29 @@ function FloatingGlow() {
 
 function NavBar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-rose-400/20 bg-[rgba(10,10,10,.7)] backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60">
+    <header className="sticky top-0 z-50 w-full border-b border-[#203743] bg-[rgba(19,35,45,.78)] backdrop-blur supports-[backdrop-filter]:bg-[#13232D]/70">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:gap-4 sm:px-4 sm:py-3 min-w-0">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-xl bg-gradient-to-br from-rose-400/40 via-red-400/40 to-amber-400/40 ring-1 ring-white/10 shrink-0">
-            <svg viewBox="0 0 24 24" className="h-4 w-4 sm:h-5 sm:w-5 text-white">
+          <div className="grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-xl bg-gradient-to-br from-[#203743] via-[#1A2E39] to-[#17242B] ring-1 ring-white/10 shrink-0">
+            <svg viewBox="0 0 24 24" className="h-4 w-4 sm:h-5 sm:w-5 text-[#F7FAFC]">
               <path fill="currentColor" d="M7 10l5-8l5 8l-5 3zM4 13l8 5l8-5l-8 9z" />
             </svg>
           </div>
-          <span className="truncate whitespace-nowrap text-base sm:text-lg font-bold tracking-tight text-white">
-            waki<strong className="text-rose-400">rewards</strong>.com
+          <span className="truncate whitespace-nowrap text-base sm:text-lg font-bold tracking-tight text-[#F7FAFC]">
+            xale<strong className="text-[#F7FAFC]/70">rewards</strong>.com
           </span>
         </div>
+
         <nav className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <a
-            className="rounded-full border border-rose-400/20 bg-rose-400/10 px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-white transition hover:border-rose-400/40 hover:bg-rose-400/20 whitespace-nowrap"
+            className="rounded-full border border-[#203743] bg-[#1A2E39] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-[#F7FAFC] transition hover:border-[#F7FAFC]/20 hover:bg-[#203743] whitespace-nowrap"
             href="#leaderboard"
           >
             Leaderboard
           </a>
           <a
-            className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-neutral-300 transition hover:border-white/30 hover:bg-white/[.06] whitespace-nowrap shrink-0"
-            href="https://menace.com/?r=waki"
+            className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm text-[#F7FAFC]/75 transition hover:border-white/20 hover:bg-white/[.05] whitespace-nowrap shrink-0"
+            href="https://menace.com/?r=xale"
             target="_blank"
             rel="noreferrer"
           >
@@ -184,20 +187,21 @@ function NavBar() {
   );
 }
 
-
 function Podium({ place, entry }: { place: Place; entry: Entry }) {
   const colors: Record<Place, string> = {
-    1: "from-yellow-400 via-amber-300 to-yellow-500",
-    2: "from-zinc-400 via-neutral-300 to-zinc-500",
-    3: "from-orange-400 via-amber-300 to-orange-500",
+    1: "from-[#203743] via-[#1A2E39] to-[#17242B]",
+    2: "from-[#1A2E39] via-[#203743] to-[#13232D]",
+    3: "from-[#17242B] via-[#1A2E39] to-[#203743]",
   };
+
   const heights: Record<Place, string> = { 1: "h-72", 2: "h-56", 3: "h-48" };
   const tilt: Record<Place, string> = { 1: "", 2: "-rotate-2", 3: "rotate-2" };
   const glow: Record<Place, string> = {
-    1: "shadow-[0_0_80px_-20px_rgba(250,204,21,.5)]",
-    2: "shadow-[0_0_60px_-16px_rgba(244,244,245,.3)]",
-    3: "shadow-[0_0_60px_-16px_rgba(251,146,60,.4)]",
+    1: "shadow-[0_0_80px_-20px_rgba(32,55,67,.65)]",
+    2: "shadow-[0_0_60px_-16px_rgba(26,46,57,.55)]",
+    3: "shadow-[0_0_60px_-16px_rgba(23,36,43,.55)]",
   };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -209,22 +213,24 @@ function Podium({ place, entry }: { place: Place; entry: Entry }) {
       <div
         className={`relative w-full ${heights[place]} ${tilt[place]} rounded-2xl bg-gradient-to-br ${colors[place]} p-0.5 ${glow[place]} transition-transform duration-300 hover:-translate-y-1`}
       >
-        <div className="relative flex h-full w-full flex-col items-center justify-end rounded-[1rem] bg-neutral-900/95 p-4">
+        <div className="relative flex h-full w-full flex-col items-center justify-end rounded-[1rem] bg-[#13232D]/95 p-4">
           <div className="absolute -top-10">
             <div className="relative">
               <img src={entry.avatar} alt={entry.user} className="h-16 w-16 rounded-full border border-white/10 shadow-lg" />
-              <div className="absolute -right-2 -bottom-2 grid h-7 w-7 place-items-center rounded-full bg-neutral-900 text-sm font-black text-white ring-2 ring-white/10">
+              <div className="absolute -right-2 -bottom-2 grid h-7 w-7 place-items-center rounded-full bg-[#17242B] text-sm font-black text-[#F7FAFC] ring-2 ring-white/10">
                 {place}
               </div>
             </div>
           </div>
+
           <div className="mt-8 text-center">
-            <h3 className="text-xl font-semibold tracking-tight text-rose-200">{entry.user}</h3>
-            <p className="mt-1 text-sm text-neutral-400">Wagered {fmt.format(entry.wagered)}</p>
-            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1 text-amber-300">
+            <h3 className="text-xl font-semibold tracking-tight text-[#F7FAFC]">{entry.user}</h3>
+            <p className="mt-1 text-sm text-[#F7FAFC]/55">Wagered {fmt.format(entry.wagered)}</p>
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-[#203743] bg-[#1A2E39] px-3 py-1 text-[#F7FAFC]">
               🏆 Prize {fmt.format(entry.prize)}
             </p>
           </div>
+
           <Shine />
         </div>
       </div>
@@ -240,27 +246,32 @@ function RankRow({ entry }: { entry: Entry }) {
       viewport={{ once: true }}
       whileHover={{ scale: 1.01 }}
       transition={{ duration: 0.25 }}
-      className="group relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 rounded-xl border border-white/5 bg-white/[.02] px-4 py-3 backdrop-blur-sm transition hover:bg-red-500/5"
+      className="group relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 rounded-xl border border-white/5 bg-white/[.02] px-4 py-3 backdrop-blur-sm transition hover:bg-[#203743]/20"
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-red-900 text-sm font-bold text-white/80 ring-1 ring-white/10">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[#203743] to-[#13232D] text-sm font-bold text-[#F7FAFC]/90 ring-1 ring-white/10">
         {entry.rank}
       </div>
+
       <div className="flex items-center gap-3">
         <img src={entry.avatar} alt="avatar" className="h-10 w-10 rounded-full ring-1 ring-white/10" />
         <div>
-          <div className="font-medium text-rose-200">{entry.user}</div>
-          <div className="text-xs text-neutral-400">Prize {fmt.format(entry.prize)}</div>
+          <div className="font-medium text-[#F7FAFC]">{entry.user}</div>
+          <div className="text-xs text-[#F7FAFC]/50">Prize {fmt.format(entry.prize)}</div>
         </div>
       </div>
-      <div className="justify-self-end text-sm text-neutral-400">Wagered</div>
-      <div className="justify-self-end text-base font-semibold tracking-tight text-amber-300">{fmt.format(entry.wagered)}</div>
+
+      <div className="justify-self-end text-sm text-[#F7FAFC]/50">Wagered</div>
+      <div className="justify-self-end text-base font-semibold tracking-tight text-[#F7FAFC]">
+        {fmt.format(entry.wagered)}
+      </div>
     </motion.div>
   );
 }
 
-function Countdown({ end }: any) {
+function Countdown({ end }: { end: Date }) {
   const { days, hours, minutes, seconds } = useCountdown(end);
   const pad = (n: number) => String(n).padStart(2, "0");
+
   const items = useMemo(
     () => [
       { label: "Days", value: pad(days) },
@@ -270,15 +281,16 @@ function Countdown({ end }: any) {
     ],
     [days, hours, minutes, seconds]
   );
+
   return (
     <div className="flex items-center gap-2">
       {items.map((t, i) => (
         <div
           key={i}
-          className="grid w-20 grid-rows-[1fr_auto] rounded-xl border border-red-500/30 bg-neutral-900/70 p-2 text-center shadow-lg backdrop-blur"
+          className="grid w-20 grid-rows-[1fr_auto] rounded-xl border border-[#203743] bg-[#13232D]/80 p-2 text-center shadow-lg backdrop-blur"
         >
-          <div className="text-2xl font-black text-rose-300 tabular-nums">{t.value}</div>
-          <div className="text-[10px] uppercase tracking-wider text-neutral-400">{t.label}</div>
+          <div className="text-2xl font-black text-[#F7FAFC] tabular-nums">{t.value}</div>
+          <div className="text-[10px] uppercase tracking-wider text-[#F7FAFC]/45">{t.label}</div>
         </div>
       ))}
     </div>
@@ -286,7 +298,7 @@ function Countdown({ end }: any) {
 }
 
 /* ---------- Page ---------- */
-export default function AuraRewards() {
+export default function XaleRewards() {
   const { entries, meta, error } = useLeaderboard();
 
   const top3 = entries?.slice(0, 3) ?? [];
@@ -298,41 +310,43 @@ export default function AuraRewards() {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <GridBackground />
         <FloatingGlow />
-        <div className="absolute inset-0 opacity-[.06] mix-blend-overlay [background-image:radial-gradient(rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:6px_6px]" />
+        <div className="absolute inset-0 opacity-[.05] mix-blend-overlay [background-image:radial-gradient(rgba(247,250,252,.08)_1px,transparent_1px)] [background-size:6px_6px]" />
         <div className="absolute inset-0 [background:radial-gradient(80%_80%_at_50%_20%,transparent,rgba(0,0,0,.35))]" />
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 min-h-screen bg-neutral-950 text-white">
+      <div className="relative z-10 min-h-screen bg-[#13232D] text-[#F7FAFC]">
         <NavBar />
 
         <main className="mx-auto max-w-7xl px-4 pb-24 pt-10" id="leaderboard">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-5xl">
+            <h1 className="bg-gradient-to-b from-[#F7FAFC] to-[#F7FAFC]/70 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent md:text-5xl">
               Affiliate Leaderboard
             </h1>
-            <p className="mt-4 text-neutral-300">
-              Every <span className="font-semibold text-rose-300">$</span> wagered using code{" "}
-              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-rose-300">WakI</span> counts toward your total.
+
+            <p className="mt-4 text-[#F7FAFC]/75">
+              Every <span className="font-semibold text-[#F7FAFC]">$</span> wagered using code{" "}
+              <span className="rounded-md bg-white/5 px-1.5 py-0.5 font-mono text-[#F7FAFC]">XALE</span> counts toward your total.
             </p>
+
             {meta.updated && (
-              <p className="mt-2 text-xs text-neutral-400">
+              <p className="mt-2 text-xs text-[#F7FAFC]/45">
                 Range: {meta.range?.start_at} → {meta.range?.end_at} • Updated: {meta.updated}
               </p>
             )}
           </div>
 
           <section className="mt-10 flex flex-col items-center gap-4">
-            <div className="text-sm uppercase tracking-widest text-neutral-400">Leaderboard ends in</div>
+            <div className="text-sm uppercase tracking-widest text-[#F7FAFC]/45">Leaderboard ends in</div>
             <Countdown end={SEASON_END} />
           </section>
 
-          {/* Loading / Error states */}
           {!entries && !error && (
-            <div className="mt-14 text-center text-neutral-400">Loading leaderboard…</div>
+            <div className="mt-14 text-center text-[#F7FAFC]/50">Loading leaderboard…</div>
           )}
+
           {error && (
-            <div className="mt-14 text-center text-red-400">Failed to load leaderboard: {error}</div>
+            <div className="mt-14 text-center text-red-300">Failed to load leaderboard: {error}</div>
           )}
 
           {entries && entries.length > 0 && (
@@ -347,9 +361,10 @@ export default function AuraRewards() {
 
               <section className="mt-14">
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-lg font-semibold tracking-tight text-white/90">Ranks 4 – 10</h2>
-                  <div className="text-xs text-neutral-400">Updated every 5 minutes</div>
+                  <h2 className="text-lg font-semibold tracking-tight text-[#F7FAFC]/90">Ranks 4 – 10</h2>
+                  <div className="text-xs text-[#F7FAFC]/45">Updated every 5 minutes</div>
                 </div>
+
                 <div className="grid gap-3">
                   {rest.map((e) => (
                     <RankRow key={e.rank} entry={e} />
@@ -360,31 +375,35 @@ export default function AuraRewards() {
           )}
 
           <section className="mt-16">
-            <div className="relative overflow-hidden rounded-2xl border border-rose-400/20 bg-gradient-to-br from-rose-500/10 via-amber-500/10 to-red-700/10 p-6">
+            <div className="relative overflow-hidden rounded-2xl border border-[#203743] bg-gradient-to-br from-[#17242B] via-[#1A2E39] to-[#203743] p-6">
               <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                 <div>
-                  <h3 className="text-xl font-semibold text-rose-300">Start playing on menace.com and get 10% lossback + 5-10% deposit bonus</h3>
-                  <p className="mt-1 max-w-xl text-sm text-neutral-300">
-                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-rose-300">WakI</span> on deposit to
+                  <h3 className="text-xl font-semibold text-[#F7FAFC]">
+                    Start playing on menace.com and get 10% lossback + 5-10% deposit bonus
+                  </h3>
+                  <p className="mt-1 max-w-xl text-sm text-[#F7FAFC]/75">
+                    Use code <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[#F7FAFC]">XALE</span> on deposit to
                     auto-track your wagering for this leaderboard.
                   </p>
                 </div>
+
                 <a
-                  href="https://menace.com/?r=waki"
+                  href="https://menace.com/?r=xale"
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-xl border border-rose-400/40 bg-rose-500/10 px-5 py-2.5 font-semibold text-rose-300 transition hover:border-rose-400/60 hover:bg-rose-500/20"
+                  className="rounded-xl border border-[#F7FAFC]/15 bg-[#13232D]/60 px-5 py-2.5 font-semibold text-[#F7FAFC] transition hover:border-[#F7FAFC]/30 hover:bg-[#17242B]"
                 >
                   Go to menace.com
                 </a>
               </div>
+
               <Shine />
             </div>
           </section>
         </main>
 
-        <footer className="border-t border-white/5 bg-neutral-950/60 py-8 text-center text-sm text-neutral-500">
-          © {new Date().getFullYear()} waki<strong className="text-rose-300">rewards</strong>.com • Offical Leaderboard Page
+        <footer className="border-t border-white/5 bg-[#13232D]/70 py-8 text-center text-sm text-[#F7FAFC]/40">
+          © {new Date().getFullYear()} xale<strong className="text-[#F7FAFC]/70">rewards</strong>.com • Official Leaderboard Page
         </footer>
       </div>
     </>
